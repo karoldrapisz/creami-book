@@ -1,30 +1,36 @@
-import { recipes } from "@/data/recipes";
+import AppShell from "@/components/common/AppShell";
+import PageHeader from "@/components/common/PageHeader";
 import RecipeCard from "@/components/recipe/RecipeCard";
-import BottomNavigation from "@/components/navigation/BottomNavigation";
+import { recipes } from "@/features/recipes/recipes";
 
 export default function Home() {
+  const featured = recipes.slice(0, 3);
+
   return (
-    <main className="min-h-screen bg-zinc-50 pb-24">
-      <section className="mx-auto max-w-md px-4 pt-6">
-        <h1 className="text-4xl font-black tracking-tight">🍦 CreamiBook</h1>
+    <AppShell>
+      <PageHeader
+        title="🍦 CreamiBook"
+        subtitle="Twoja mobilna baza przepisów do Ninja Creami — porcje 500 ml."
+      />
 
-        <p className="mt-2 text-zinc-600">
-          Przepisy do Ninja Creami w porcjach 500 ml.
-        </p>
+      <section className="px-5 pt-6">
+        <div className="rounded-[2rem] bg-zinc-900 p-6 text-white">
+          <p className="text-sm text-zinc-300">Dziś polecane</p>
+          <h2 className="mt-2 text-2xl font-black">Truskawkowy Cheesecake</h2>
+          <p className="mt-2 text-sm text-zinc-300">
+            Kremowe, fit, wysokobiałkowe. Idealne na lato.
+          </p>
+        </div>
+      </section>
 
-        <input
-          className="mt-6 w-full rounded-2xl border bg-white px-4 py-3 shadow-sm outline-none"
-          placeholder="Szukaj przepisu..."
-        />
-
-        <div className="mt-6 space-y-4">
-          {recipes.map((recipe) => (
+      <section className="px-5 pt-6">
+        <h2 className="text-xl font-bold">Polecane przepisy</h2>
+        <div className="mt-4 space-y-4">
+          {featured.map((recipe) => (
             <RecipeCard key={recipe.id} recipe={recipe} />
           ))}
         </div>
       </section>
-
-      <BottomNavigation />
-    </main>
+    </AppShell>
   );
 }

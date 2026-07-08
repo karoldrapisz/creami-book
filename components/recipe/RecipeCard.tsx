@@ -1,3 +1,5 @@
+import Link from "next/link";
+import { Star } from "lucide-react";
 import { Recipe } from "@/types/recipe";
 
 type Props = {
@@ -6,28 +8,34 @@ type Props = {
 
 export default function RecipeCard({ recipe }: Props) {
   return (
-    <article className="rounded-3xl bg-white p-5 shadow-sm border">
+    <Link
+      href={`/recipe/${recipe.slug}`}
+      className="block rounded-3xl border bg-white p-5 shadow-sm transition hover:scale-[1.01]"
+    >
       <div className="flex items-start justify-between gap-4">
         <div>
-          <p className="text-xs font-semibold uppercase text-zinc-400">
-            {recipe.category} • {recipe.season}
+          <p className="text-xs font-semibold uppercase tracking-wide text-zinc-400">
+            {recipe.category} • {recipe.program}
           </p>
-
-          <h2 className="mt-1 text-xl font-bold text-zinc-900">
-            {recipe.name}
-          </h2>
+          <h2 className="mt-1 text-xl font-bold">{recipe.name}</h2>
+          <p className="mt-1 line-clamp-2 text-sm text-zinc-500">
+            {recipe.description}
+          </p>
         </div>
 
-        <button className="text-2xl">♡</button>
+        <div className="flex items-center gap-1 rounded-full bg-yellow-50 px-2 py-1 text-sm">
+          <Star size={14} />
+          {recipe.rating}
+        </div>
       </div>
 
       <div className="mt-4 grid grid-cols-4 gap-2 text-center text-sm">
-        <Macro label="kcal" value={recipe.kcal} />
-        <Macro label="B" value={`${recipe.protein}g`} />
-        <Macro label="W" value={`${recipe.carbs}g`} />
-        <Macro label="T" value={`${recipe.fat}g`} />
+        <Macro label="kcal" value={recipe.nutrition.kcal} />
+        <Macro label="B" value={`${recipe.nutrition.protein}g`} />
+        <Macro label="W" value={`${recipe.nutrition.carbs}g`} />
+        <Macro label="T" value={`${recipe.nutrition.fat}g`} />
       </div>
-    </article>
+    </Link>
   );
 }
 

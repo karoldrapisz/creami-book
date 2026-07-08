@@ -1,0 +1,228 @@
+[
+  {
+    "id": "strawberry-cheesecake-500",
+    "slug": "truskawkowy-cheesecake",
+    "name": "Truskawkowy Cheesecake",
+    "description": "Kremowe lody fit na skyrze, truskawkach i serku light.",
+    "category": "fit",
+    "season": [
+      "czerwiec",
+      "lipiec",
+      "sierpień"
+    ],
+    "difficulty": "easy",
+    "portionMl": 500,
+    "prepTimeMinutes": 10,
+    "freezeHours": 24,
+    "program": "Lite Ice Cream",
+    "ingredients": [
+      {
+        "name": "skyr naturalny",
+        "amount": 250,
+        "unit": "g"
+      },
+      {
+        "name": "mleko 2%",
+        "amount": 150,
+        "unit": "ml"
+      },
+      {
+        "name": "truskawki",
+        "amount": 100,
+        "unit": "g"
+      },
+      {
+        "name": "serek light",
+        "amount": 20,
+        "unit": "g"
+      },
+      {
+        "name": "erytrytol",
+        "amount": 20,
+        "unit": "g",
+        "optional": true
+      }
+    ],
+    "steps": [
+      "Zmiksuj wszystkie składniki na gładką masę.",
+      "Przelej do pojemnika Ninja Creami 500 ml.",
+      "Zamroź płasko przez minimum 24 godziny.",
+      "Uruchom program Lite Ice Cream.",
+      "Jeżeli masa jest sypka, dodaj 1–2 łyżki mleka i użyj Re-spin."
+    ],
+    "nutrition": {
+      "kcal": 315,
+      "protein": 31,
+      "carbs": 18,
+      "fat": 12
+    },
+    "tags": [
+      "fit",
+      "wysokobiałkowe",
+      "truskawki"
+    ],
+    "rating": 4.8
+  },
+  {
+    "id": "chocolate-protein-500",
+    "slug": "czekoladowy-proteinowy",
+    "name": "Czekoladowy Proteinowy",
+    "description": "Szybkie lody wysokobiałkowe z kakao.",
+    "category": "protein",
+    "season": [
+      "cały rok"
+    ],
+    "difficulty": "easy",
+    "portionMl": 500,
+    "prepTimeMinutes": 8,
+    "freezeHours": 24,
+    "program": "Lite Ice Cream",
+    "ingredients": [
+      {
+        "name": "skyr naturalny",
+        "amount": 250,
+        "unit": "g"
+      },
+      {
+        "name": "mleko 2%",
+        "amount": 180,
+        "unit": "ml"
+      },
+      {
+        "name": "kakao",
+        "amount": 15,
+        "unit": "g"
+      },
+      {
+        "name": "odżywka białkowa czekoladowa",
+        "amount": 20,
+        "unit": "g",
+        "optional": true
+      }
+    ],
+    "steps": [
+      "Zmiksuj składniki.",
+      "Przelej do pojemnika.",
+      "Zamroź 24 godziny.",
+      "Uruchom Lite Ice Cream.",
+      "W razie potrzeby użyj Re-spin."
+    ],
+    "nutrition": {
+      "kcal": 290,
+      "protein": 34,
+      "carbs": 12,
+      "fat": 8
+    },
+    "tags": [
+      "protein",
+      "czekolada",
+      "fit"
+    ],
+    "rating": 4.6
+  },
+  {
+    "id": "mango-sorbet-500",
+    "slug": "mango-sorbet",
+    "name": "Mango Sorbet",
+    "description": "Prosty sorbet z mango, limonką i wodą.",
+    "category": "sorbet",
+    "season": [
+      "lato"
+    ],
+    "difficulty": "easy",
+    "portionMl": 500,
+    "prepTimeMinutes": 7,
+    "freezeHours": 24,
+    "program": "Sorbet",
+    "ingredients": [
+      {
+        "name": "mango",
+        "amount": 350,
+        "unit": "g"
+      },
+      {
+        "name": "woda",
+        "amount": 100,
+        "unit": "ml"
+      },
+      {
+        "name": "sok z limonki",
+        "amount": 1,
+        "unit": "łyżka"
+      }
+    ],
+    "steps": [
+      "Zmiksuj mango z wodą i limonką.",
+      "Przelej do pojemnika.",
+      "Zamroź 24 godziny.",
+      "Uruchom program Sorbet."
+    ],
+    "nutrition": {
+      "kcal": 220,
+      "protein": 2,
+      "carbs": 52,
+      "fat": 1
+    },
+    "tags": [
+      "sorbet",
+      "mango",
+      "bez nabiału"
+    ],
+    "rating": 4.7
+  },
+  {
+    "id": "vanilla-cream-500",
+    "slug": "waniliowe-smietankowe",
+    "name": "Waniliowe Śmietankowe",
+    "description": "Klasyczne kremowe lody waniliowe na śmietance.",
+    "category": "cream",
+    "season": [
+      "cały rok"
+    ],
+    "difficulty": "easy",
+    "portionMl": 500,
+    "prepTimeMinutes": 12,
+    "freezeHours": 24,
+    "program": "Ice Cream",
+    "ingredients": [
+      {
+        "name": "mleko 3,2%",
+        "amount": 220,
+        "unit": "ml"
+      },
+      {
+        "name": "śmietanka 30%",
+        "amount": 180,
+        "unit": "ml"
+      },
+      {
+        "name": "cukier",
+        "amount": 45,
+        "unit": "g"
+      },
+      {
+        "name": "wanilia",
+        "amount": 1,
+        "unit": "łyżeczka"
+      }
+    ],
+    "steps": [
+      "Wymieszaj składniki do rozpuszczenia cukru.",
+      "Przelej do pojemnika.",
+      "Zamroź 24 godziny.",
+      "Uruchom Ice Cream."
+    ],
+    "nutrition": {
+      "kcal": 620,
+      "protein": 9,
+      "carbs": 55,
+      "fat": 39
+    },
+    "tags": [
+      "śmietankowe",
+      "wanilia",
+      "klasyk"
+    ],
+    "rating": 4.9
+  }
+]
