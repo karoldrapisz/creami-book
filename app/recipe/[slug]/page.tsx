@@ -19,38 +19,81 @@ export default async function RecipeDetailsPage({ params }: Props) {
   return (
     <AppShell>
       <section className="px-5 pt-6">
-        <Link href="/recipes" className="text-sm text-zinc-500">
+        <Link
+          href="/recipes"
+          className="text-sm font-medium text-zinc-500 hover:text-zinc-800"
+        >
           ← Wróć do przepisów
         </Link>
 
-        <div className="mt-5 rounded-[2rem] bg-white p-6 shadow-sm border">
-          <div className="flex items-start justify-between gap-4">
-            <div>
-              <p className="text-xs font-semibold uppercase tracking-wide text-zinc-400">
-                {recipe.category} • {recipe.program}
-              </p>
-              <h1 className="mt-2 text-3xl font-black">{recipe.name}</h1>
-            </div>
+        {/* HERO */}
+        <div className="mt-5 overflow-hidden rounded-[2rem] border bg-white shadow-sm">
+          <div className="relative flex h-60 items-center justify-center bg-gradient-to-br from-orange-200 via-pink-100 to-red-100">
+            <span className="text-8xl">🍦</span>
 
-            <FavoriteButton recipeId={recipe.id} />
+            <div className="absolute right-5 top-5">
+              <FavoriteButton recipeId={recipe.id} />
+            </div>
           </div>
 
-          <p className="mt-3 text-zinc-600">{recipe.description}</p>
+          <div className="p-6">
+            <p className="text-xs font-semibold uppercase tracking-wide text-zinc-400">
+              {recipe.category} • {recipe.program}
+            </p>
 
-          <div className="mt-6 grid grid-cols-4 gap-2 text-center text-sm">
-            <Box label="kcal" value={recipe.nutrition.kcal} />
-            <Box label="B" value={`${recipe.nutrition.protein}g`} />
-            <Box label="W" value={`${recipe.nutrition.carbs}g`} />
-            <Box label="T" value={`${recipe.nutrition.fat}g`} />
+            <h1 className="mt-2 text-3xl font-black">
+              {recipe.name}
+            </h1>
+
+            <p className="mt-3 text-zinc-600">
+              {recipe.description}
+            </p>
+
+            <div className="mt-5 flex flex-wrap gap-2">
+              {recipe.tags.map((tag) => (
+                <span
+                  key={tag}
+                  className="rounded-full bg-zinc-100 px-3 py-1 text-xs font-medium"
+                >
+                  #{tag}
+                </span>
+              ))}
+            </div>
+
+            <div className="mt-6 grid grid-cols-4 gap-3">
+              <Box label="kcal" value={recipe.nutrition.kcal} />
+              <Box
+                label="Białko"
+                value={`${recipe.nutrition.protein}g`}
+              />
+              <Box
+                label="Węgle"
+                value={`${recipe.nutrition.carbs}g`}
+              />
+              <Box
+                label="Tłuszcz"
+                value={`${recipe.nutrition.fat}g`}
+              />
+            </div>
           </div>
         </div>
 
-        <section className="mt-6 rounded-[2rem] bg-white p-6 shadow-sm border">
-          <h2 className="text-xl font-bold">Składniki</h2>
-          <ul className="mt-4 space-y-3">
+        {/* SKŁADNIKI */}
+        <section className="mt-6 rounded-[2rem] border bg-white p-6 shadow-sm">
+          <h2 className="text-xl font-bold">
+            Składniki
+          </h2>
+
+          <ul className="mt-5 space-y-3">
             {recipe.ingredients.map((ingredient) => (
-              <li key={ingredient.name} className="flex justify-between border-b pb-2">
-                <span>{ingredient.name}</span>
+              <li
+                key={ingredient.name}
+                className="flex items-center justify-between rounded-xl border bg-zinc-50 px-4 py-3"
+              >
+                <span className="font-medium">
+                  {ingredient.name}
+                </span>
+
                 <span className="font-semibold">
                   {ingredient.amount} {ingredient.unit}
                 </span>
@@ -59,15 +102,25 @@ export default async function RecipeDetailsPage({ params }: Props) {
           </ul>
         </section>
 
-        <section className="mt-6 rounded-[2rem] bg-white p-6 shadow-sm border">
-          <h2 className="text-xl font-bold">Instrukcja</h2>
-          <ol className="mt-4 space-y-3">
+        {/* INSTRUKCJA */}
+        <section className="mt-6 mb-24 rounded-[2rem] border bg-white p-6 shadow-sm">
+          <h2 className="text-xl font-bold">
+            Instrukcja
+          </h2>
+
+          <ol className="mt-5 space-y-4">
             {recipe.steps.map((step, index) => (
-              <li key={step} className="flex gap-3">
-                <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-zinc-900 text-sm text-white">
+              <li
+                key={step}
+                className="flex items-start gap-4"
+              >
+                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-zinc-900 font-bold text-white">
                   {index + 1}
-                </span>
-                <span>{step}</span>
+                </div>
+
+                <p className="pt-1 text-zinc-700">
+                  {step}
+                </p>
               </li>
             ))}
           </ol>
@@ -77,11 +130,22 @@ export default async function RecipeDetailsPage({ params }: Props) {
   );
 }
 
-function Box({ label, value }: { label: string; value: string | number }) {
+function Box({
+  label,
+  value,
+}: {
+  label: string;
+  value: string | number;
+}) {
   return (
-    <div className="rounded-2xl bg-zinc-100 p-3">
-      <div className="font-bold">{value}</div>
-      <div className="text-xs text-zinc-500">{label}</div>
+    <div className="rounded-2xl bg-zinc-100 p-4 text-center">
+      <div className="text-lg font-black">
+        {value}
+      </div>
+
+      <div className="mt-1 text-xs text-zinc-500">
+        {label}
+      </div>
     </div>
   );
 }

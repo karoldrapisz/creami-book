@@ -127,7 +127,7 @@ export default function RecipeSearch() {
         ) : (
           <EmptyState
             title="Brak przepisów"
-            description="Zmień wyszukiwanie, kategorię albo sortowanie."
+            description="Nie znaleziono żadnego przepisu. Spróbuj zmienić filtry."
           />
         )}
       </div>

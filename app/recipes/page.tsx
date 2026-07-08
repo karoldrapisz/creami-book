@@ -9,6 +9,7 @@ export default function RecipesPage() {
         title="Przepisy"
         subtitle="Szukaj, filtruj i wybieraj przepisy 500 ml."
       />
+
       <RecipeSearch />
     </AppShell>
   );

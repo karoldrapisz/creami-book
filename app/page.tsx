@@ -25,6 +25,7 @@ export default function Home() {
 
       <section className="px-5 pt-6">
         <h2 className="text-xl font-bold">Polecane przepisy</h2>
+
         <div className="mt-4 space-y-4">
           {featured.map((recipe) => (
             <RecipeCard key={recipe.id} recipe={recipe} />
