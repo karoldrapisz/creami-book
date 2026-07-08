@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import AppShell from "@/components/common/AppShell";
+import FavoriteButton from "@/features/favorites/FavoriteButton";
 import { getRecipeBySlug } from "@/features/recipes/recipes";
 
 type Props = {
@@ -23,10 +24,17 @@ export default async function RecipeDetailsPage({ params }: Props) {
         </Link>
 
         <div className="mt-5 rounded-[2rem] bg-white p-6 shadow-sm border">
-          <p className="text-xs font-semibold uppercase tracking-wide text-zinc-400">
-            {recipe.category} • {recipe.program}
-          </p>
-          <h1 className="mt-2 text-3xl font-black">{recipe.name}</h1>
+          <div className="flex items-start justify-between gap-4">
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-wide text-zinc-400">
+                {recipe.category} • {recipe.program}
+              </p>
+              <h1 className="mt-2 text-3xl font-black">{recipe.name}</h1>
+            </div>
+
+            <FavoriteButton recipeId={recipe.id} />
+          </div>
+
           <p className="mt-3 text-zinc-600">{recipe.description}</p>
 
           <div className="mt-6 grid grid-cols-4 gap-2 text-center text-sm">
