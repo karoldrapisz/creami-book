@@ -51,7 +51,7 @@ export default function RecipeSearch() {
           value={query}
           onChange={(event) => setQuery(event.target.value)}
           className="w-full bg-transparent text-base outline-none"
-          placeholder="Szukaj: skyr, mango, sorbet..."
+          placeholder="🔍 Szukaj składników, nazw lub programu..."
         />
 
         <div className="mt-4 flex items-center justify-between gap-3">
@@ -97,7 +97,30 @@ export default function RecipeSearch() {
         <option value="protein">Najwięcej białka</option>
         <option value="name">Nazwa A-Z</option>
       </select>
+      
+       <div className="mb-4 flex items-center justify-between">
+  <div className="text-sm text-zinc-500">
+    Znaleziono{" "}
+    <span className="font-bold text-zinc-900">
+      {results.length}
+    </span>{" "}
+    {results.length === 1 ? "przepis" : "przepisów"}
+  </div>
 
+  <div className="flex flex-wrap gap-2">
+    {category !== "all" && (
+      <span className="rounded-full bg-zinc-900 px-3 py-1 text-xs text-white">
+        {categories.find((c) => c.id === category)?.label}
+      </span>
+    )}
+
+    {query && (
+      <span className="rounded-full bg-blue-100 px-3 py-1 text-xs font-medium text-blue-700">
+        🔎 {query}
+      </span>
+    )}
+  </div>
+</div>
       <div className="mt-5 space-y-4">
         {results.length ? (
           results.map((recipe) => <RecipeCard key={recipe.id} recipe={recipe} />)
