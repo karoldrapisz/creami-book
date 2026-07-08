@@ -3,26 +3,72 @@
 import { useMemo, useState } from "react";
 import RecipeCard from "@/components/recipe/RecipeCard";
 import EmptyState from "@/components/common/EmptyState";
-import { categories, searchRecipes } from "@/features/recipes/recipes";
-import { RecipeCategory } from "@/types/recipe";
+import { categories, recipes } from "@/features/recipes/recipes";
+import { Recipe, RecipeCategory } from "@/types/recipe";
+
+type SortOption = "rating" | "kcal" | "protein" | "name";
 
 export default function RecipeSearch() {
   const [query, setQuery] = useState("");
   const [category, setCategory] = useState<RecipeCategory | "all">("all");
+  const [sort, setSort] = useState<SortOption>("rating");
 
-  const results = useMemo(
-    () => searchRecipes(query, category),
-    [query, category]
-  );
+  const results = useMemo(() => {
+    const q = query.trim().toLowerCase();
+
+    return recipes
+      .filter((recipe) => {
+        const categoryMatch = category === "all" || recipe.category === category;
+
+        const text = [
+          recipe.name,
+          recipe.description,
+          recipe.category,
+          recipe.program,
+          ...recipe.tags,
+          ...recipe.ingredients.map((ingredient) => ingredient.name)
+        ]
+          .join(" ")
+          .toLowerCase();
+
+        return categoryMatch && (!q || text.includes(q));
+      })
+      .sort((a, b) => sortRecipes(a, b, sort));
+  }, [query, category, sort]);
+
+  const hasFilters = query || category !== "all" || sort !== "rating";
+
+  function clearFilters() {
+    setQuery("");
+    setCategory("all");
+    setSort("rating");
+  }
 
   return (
     <section className="px-5">
-      <input
-        value={query}
-        onChange={(event) => setQuery(event.target.value)}
-        className="mt-6 w-full rounded-3xl border bg-white px-5 py-4 shadow-sm outline-none"
-        placeholder="Szukaj po nazwie, składniku lub tagu..."
-      />
+      <div className="mt-6 rounded-3xl border bg-white p-4 shadow-sm">
+        <input
+          value={query}
+          onChange={(event) => setQuery(event.target.value)}
+          className="w-full bg-transparent text-base outline-none"
+          placeholder="Szukaj: skyr, mango, sorbet..."
+        />
+
+        <div className="mt-4 flex items-center justify-between gap-3">
+          <p className="text-sm text-zinc-500">
+            Wyniki: <span className="font-semibold text-zinc-900">{results.length}</span>
+          </p>
+
+          {hasFilters ? (
+            <button
+              onClick={clearFilters}
+              className="rounded-full bg-zinc-100 px-3 py-1 text-sm font-medium text-zinc-700"
+            >
+              Wyczyść
+            </button>
+          ) : null}
+        </div>
+      </div>
 
       <div className="mt-4 flex gap-2 overflow-x-auto pb-2">
         {categories.map((item) => (
@@ -41,16 +87,43 @@ export default function RecipeSearch() {
         ))}
       </div>
 
+      <select
+        value={sort}
+        onChange={(event) => setSort(event.target.value as SortOption)}
+        className="mt-2 w-full rounded-2xl border bg-white px-4 py-3 text-sm shadow-sm outline-none"
+      >
+        <option value="rating">Najwyżej oceniane</option>
+        <option value="kcal">Najmniej kcal</option>
+        <option value="protein">Najwięcej białka</option>
+        <option value="name">Nazwa A-Z</option>
+      </select>
+
       <div className="mt-5 space-y-4">
         {results.length ? (
           results.map((recipe) => <RecipeCard key={recipe.id} recipe={recipe} />)
         ) : (
           <EmptyState
             title="Brak przepisów"
-            description="Zmień wyszukiwanie albo kategorię."
+            description="Zmień wyszukiwanie, kategorię albo sortowanie."
           />
         )}
       </div>
     </section>
   );
+}
+
+function sortRecipes(a: Recipe, b: Recipe, sort: SortOption) {
+  if (sort === "kcal") {
+    return a.nutrition.kcal - b.nutrition.kcal;
+  }
+
+  if (sort === "protein") {
+    return b.nutrition.protein - a.nutrition.protein;
+  }
+
+  if (sort === "name") {
+    return a.name.localeCompare(b.name, "pl");
+  }
+
+  return b.rating - a.rating;
 }
