@@ -1,8 +1,13 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import RecipeCard from "@/components/recipe/RecipeCard";
 import { recipes } from "@/features/recipes/recipes";
+import {
+  clearPantryItems,
+  getPantryItems,
+  togglePantryItem,
+} from "@/features/pantry/pantry.service";
 
 const pantryGroups = [
   {
@@ -21,13 +26,26 @@ const pantryGroups = [
 
 export default function PantrySelector() {
   const [selected, setSelected] = useState<string[]>([]);
+  const [loaded, setLoaded] = useState(false);
 
-  function toggle(item: string) {
+  useEffect(() => {
+    getPantryItems().then((items) => {
+      setSelected(items);
+      setLoaded(true);
+    });
+  }, []);
+
+  async function toggle(item: string) {
+    const active = await togglePantryItem(item);
+
     setSelected((prev) =>
-      prev.includes(item)
-        ? prev.filter((value) => value !== item)
-        : [...prev, item]
+      active ? [...prev, item] : prev.filter((value) => value !== item)
     );
+  }
+
+  async function clearAll() {
+    await clearPantryItems();
+    setSelected([]);
   }
 
   const matchedRecipes = useMemo(() => {
@@ -63,8 +81,34 @@ export default function PantrySelector() {
       .sort((a, b) => b.score - a.score);
   }, [selected]);
 
+  if (!loaded) {
+    return (
+      <section className="px-5 pt-6 pb-28">
+        <div className="rounded-[2rem] border bg-white p-6 shadow-sm">
+          Ładowanie składników...
+        </div>
+      </section>
+    );
+  }
+
   return (
     <section className="px-5 pt-6 pb-28">
+      <div className="mb-5 flex items-center justify-between">
+        <p className="text-sm text-zinc-500">
+          Wybrane:{" "}
+          <span className="font-bold text-zinc-900">{selected.length}</span>
+        </p>
+
+        {selected.length > 0 && (
+          <button
+            onClick={clearAll}
+            className="rounded-full bg-zinc-100 px-4 py-2 text-sm font-medium"
+          >
+            Wyczyść
+          </button>
+        )}
+      </div>
+
       <div className="space-y-5">
         {pantryGroups.map((group) => (
           <div
@@ -121,9 +165,7 @@ export default function PantrySelector() {
 
               {missing.length > 0 && (
                 <div className="rounded-3xl border bg-white p-4 shadow-sm">
-                  <p className="text-sm font-bold text-zinc-700">
-                    Brakuje:
-                  </p>
+                  <p className="text-sm font-bold text-zinc-700">Brakuje:</p>
 
                   <ul className="mt-2 space-y-1 text-sm text-zinc-500">
                     {missing.map((ingredient) => (

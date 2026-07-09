@@ -5,14 +5,21 @@ export interface FavoriteRecipeRecord {
   createdAt: string;
 }
 
+export interface PantryItemRecord {
+  name: string;
+  createdAt: string;
+}
+
 class CreamiBookDatabase extends Dexie {
   favorites!: Table<FavoriteRecipeRecord, string>;
+  pantry!: Table<PantryItemRecord, string>;
 
   constructor() {
     super("CreamiBookDatabase");
 
-    this.version(1).stores({
-      favorites: "recipeId, createdAt"
+    this.version(2).stores({
+      favorites: "recipeId, createdAt",
+      pantry: "name, createdAt",
     });
   }
 }
