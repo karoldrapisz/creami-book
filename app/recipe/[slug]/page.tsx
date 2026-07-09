@@ -4,6 +4,7 @@ import AppShell from "@/components/common/AppShell";
 import FavoriteButton from "@/features/favorites/FavoriteButton";
 import IngredientChecklist from "@/features/recipes/IngredientChecklist";
 import { getRecipeBySlug } from "@/features/recipes/recipes";
+import StepsChecklist from "@/features/recipes/StepsChecklist";
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -73,17 +74,7 @@ export default async function RecipeDetailsPage({ params }: Props) {
         <section className="mt-6 mb-24 rounded-[2rem] border bg-white p-6 shadow-sm">
           <h2 className="text-xl font-bold">Instrukcja</h2>
 
-          <ol className="mt-5 space-y-4">
-            {recipe.steps.map((step, index) => (
-              <li key={step} className="flex items-start gap-4">
-                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-zinc-900 font-bold text-white">
-                  {index + 1}
-                </div>
-
-                <p className="pt-1 text-zinc-700">{step}</p>
-              </li>
-            ))}
-          </ol>
+          <StepsChecklist steps={recipe.steps} />
         </section>
       </section>
     </AppShell>
