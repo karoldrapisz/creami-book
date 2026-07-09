@@ -33,12 +33,19 @@ export default function PantrySelector() {
   const matchedRecipes = useMemo(() => {
     return recipes
       .map((recipe) => {
-        const required = recipe.ingredients.map((item) =>
-          item.name.toLowerCase()
-        );
+        const required = recipe.ingredients.map((item) => item.name);
 
         const matched = required.filter((ingredient) =>
-          selected.some((item) => ingredient.includes(item.toLowerCase()))
+          selected.some((item) =>
+            ingredient.toLowerCase().includes(item.toLowerCase())
+          )
+        );
+
+        const missing = recipe.ingredients.filter(
+          (ingredient) =>
+            !selected.some((item) =>
+              ingredient.name.toLowerCase().includes(item.toLowerCase())
+            )
         );
 
         const score =
@@ -49,6 +56,7 @@ export default function PantrySelector() {
         return {
           recipe,
           score,
+          missing,
         };
       })
       .filter((item) => item.score > 0)
@@ -95,14 +103,38 @@ export default function PantrySelector() {
           Pasujące przepisy: {matchedRecipes.length}
         </h2>
 
-        <div className="mt-4 space-y-4">
-          {matchedRecipes.map(({ recipe, score }) => (
-            <div key={recipe.id} className="space-y-2">
-              <div className="rounded-full bg-green-100 px-4 py-2 text-sm font-bold text-green-700">
+        <div className="mt-4 space-y-5">
+          {matchedRecipes.map(({ recipe, score, missing }) => (
+            <div key={recipe.id} className="space-y-3">
+              <div
+                className={
+                  "rounded-full px-4 py-2 text-sm font-bold " +
+                  (score === 100
+                    ? "bg-green-100 text-green-700"
+                    : "bg-orange-100 text-orange-700")
+                }
+              >
                 Zgodność: {score}%
               </div>
 
               <RecipeCard recipe={recipe} />
+
+              {missing.length > 0 && (
+                <div className="rounded-3xl border bg-white p-4 shadow-sm">
+                  <p className="text-sm font-bold text-zinc-700">
+                    Brakuje:
+                  </p>
+
+                  <ul className="mt-2 space-y-1 text-sm text-zinc-500">
+                    {missing.map((ingredient) => (
+                      <li key={ingredient.name}>
+                        • {ingredient.amount} {ingredient.unit}{" "}
+                        {ingredient.name}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
             </div>
           ))}
         </div>
