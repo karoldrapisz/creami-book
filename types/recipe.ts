@@ -31,18 +31,34 @@ export interface RecipeNutrition {
 export interface Recipe {
   id: string;
   slug: string;
+
   name: string;
   description: string;
+
+  /** Ścieżka do zdjęcia w /public/images/recipes */
+  image: string;
+
   category: RecipeCategory;
+
   season: string[];
+
   difficulty: "easy" | "medium" | "hard";
+
   portionMl: 500;
+
   prepTimeMinutes: number;
+
   freezeHours: number;
+
   program: NinjaProgram;
+
   ingredients: RecipeIngredient[];
+
   steps: string[];
+
   nutrition: RecipeNutrition;
+
   tags: string[];
+
   rating: number;
 }

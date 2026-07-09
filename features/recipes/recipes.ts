@@ -1,7 +1,10 @@
 import rawRecipes from "@/data/recipes.json";
 import { Recipe, RecipeCategory } from "@/types/recipe";
 
-export const recipes = rawRecipes as Recipe[];
+export const recipes = (rawRecipes as Recipe[]).map((recipe) => ({
+  ...recipe,
+  image: recipe.image || "/images/recipes/placeholder.jpg",
+}));
 
 export const categories: { id: RecipeCategory | "all"; label: string }[] = [
   { id: "all", label: "Wszystkie" },
@@ -10,7 +13,7 @@ export const categories: { id: RecipeCategory | "all"; label: string }[] = [
   { id: "cream", label: "Śmietankowe" },
   { id: "protein", label: "Proteinowe" },
   { id: "kids", label: "Dla dzieci" },
-  { id: "vegan", label: "Vegan" }
+  { id: "vegan", label: "Vegan" },
 ];
 
 export function getRecipeBySlug(slug: string) {
@@ -27,6 +30,7 @@ export function searchRecipes(query: string, category: RecipeCategory | "all") {
       !q ||
       recipe.name.toLowerCase().includes(q) ||
       recipe.description.toLowerCase().includes(q) ||
+      recipe.program.toLowerCase().includes(q) ||
       recipe.tags.some((tag) => tag.toLowerCase().includes(q)) ||
       recipe.ingredients.some((item) => item.name.toLowerCase().includes(q));
 
