@@ -3,8 +3,9 @@ import { notFound } from "next/navigation";
 import AppShell from "@/components/common/AppShell";
 import FavoriteButton from "@/features/favorites/FavoriteButton";
 import IngredientChecklist from "@/features/recipes/IngredientChecklist";
-import { getRecipeBySlug } from "@/features/recipes/recipes";
+import RecipeTimer from "@/features/recipes/RecipeTimer";
 import StepsChecklist from "@/features/recipes/StepsChecklist";
+import { getRecipeBySlug } from "@/features/recipes/recipes";
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -14,24 +15,18 @@ export default async function RecipeDetailsPage({ params }: Props) {
   const { slug } = await params;
   const recipe = getRecipeBySlug(slug);
 
-  if (!recipe) {
-    notFound();
-  }
+  if (!recipe) notFound();
 
   return (
     <AppShell>
-      <section className="px-5 pt-6">
-        <Link
-          href="/recipes"
-          className="text-sm font-medium text-zinc-500 hover:text-zinc-800"
-        >
+      <section className="px-5 pt-6 pb-28">
+        <Link href="/recipes" className="text-sm font-medium text-zinc-500">
           ← Wróć do przepisów
         </Link>
 
         <div className="mt-5 overflow-hidden rounded-[2rem] border bg-white shadow-sm">
           <div className="relative flex h-60 items-center justify-center bg-gradient-to-br from-orange-200 via-pink-100 to-red-100">
             <span className="text-8xl">🍦</span>
-
             <div className="absolute right-5 top-5">
               <FavoriteButton recipeId={recipe.id} />
             </div>
@@ -43,7 +38,6 @@ export default async function RecipeDetailsPage({ params }: Props) {
             </p>
 
             <h1 className="mt-2 text-3xl font-black">{recipe.name}</h1>
-
             <p className="mt-3 text-zinc-600">{recipe.description}</p>
 
             <div className="mt-5 flex flex-wrap gap-2">
@@ -71,23 +65,22 @@ export default async function RecipeDetailsPage({ params }: Props) {
           <IngredientChecklist ingredients={recipe.ingredients} />
         </section>
 
-        <section className="mt-6 mb-24 rounded-[2rem] border bg-white p-6 shadow-sm">
+        <section className="mt-6 rounded-[2rem] border bg-white p-6 shadow-sm">
           <h2 className="text-xl font-bold">Instrukcja</h2>
+          <div className="mt-5">
+            <StepsChecklist steps={recipe.steps} />
+          </div>
+        </section>
 
-          <StepsChecklist steps={recipe.steps} />
+        <section className="mt-6">
+          <RecipeTimer initialMinutes={5} />
         </section>
       </section>
     </AppShell>
   );
 }
 
-function Box({
-  label,
-  value,
-}: {
-  label: string;
-  value: string | number;
-}) {
+function Box({ label, value }: { label: string; value: string | number }) {
   return (
     <div className="rounded-2xl bg-zinc-100 p-4 text-center">
       <div className="text-lg font-black">{value}</div>
