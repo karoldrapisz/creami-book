@@ -8,6 +8,7 @@ import {
   getPantryItems,
   togglePantryItem,
 } from "@/features/pantry/pantry.service";
+import { addShoppingItem } from "@/features/shopping/shopping.service";
 
 const pantryGroups = [
   {
@@ -27,6 +28,7 @@ const pantryGroups = [
 export default function PantrySelector() {
   const [selected, setSelected] = useState<string[]>([]);
   const [loaded, setLoaded] = useState(false);
+  const [addedItems, setAddedItems] = useState<string[]>([]);
 
   useEffect(() => {
     getPantryItems().then((items) => {
@@ -46,6 +48,20 @@ export default function PantrySelector() {
   async function clearAll() {
     await clearPantryItems();
     setSelected([]);
+  }
+
+  async function addMissingToShopping(
+    name: string,
+    amount: number,
+    unit: string
+  ) {
+    const amountText = `${amount} ${unit}`;
+
+    await addShoppingItem(name, amountText);
+
+    setAddedItems((prev) =>
+      prev.includes(name) ? prev : [...prev, name]
+    );
   }
 
   const matchedRecipes = useMemo(() => {
@@ -165,16 +181,49 @@ export default function PantrySelector() {
 
               {missing.length > 0 && (
                 <div className="rounded-3xl border bg-white p-4 shadow-sm">
-                  <p className="text-sm font-bold text-zinc-700">Brakuje:</p>
+                  <p className="text-sm font-bold text-zinc-700">
+                    Brakuje:
+                  </p>
 
-                  <ul className="mt-2 space-y-1 text-sm text-zinc-500">
-                    {missing.map((ingredient) => (
-                      <li key={ingredient.name}>
-                        • {ingredient.amount} {ingredient.unit}{" "}
-                        {ingredient.name}
-                      </li>
-                    ))}
-                  </ul>
+                  <div className="mt-3 space-y-3">
+                    {missing.map((ingredient) => {
+                      const added = addedItems.includes(ingredient.name);
+
+                      return (
+                        <div
+                          key={ingredient.name}
+                          className="flex items-center justify-between gap-3 rounded-2xl bg-zinc-50 p-3"
+                        >
+                          <div>
+                            <p className="font-medium">
+                              {ingredient.name}
+                            </p>
+                            <p className="text-xs text-zinc-500">
+                              {ingredient.amount} {ingredient.unit}
+                            </p>
+                          </div>
+
+                          <button
+                            onClick={() =>
+                              addMissingToShopping(
+                                ingredient.name,
+                                ingredient.amount,
+                                ingredient.unit
+                              )
+                            }
+                            className={
+                              "rounded-full px-3 py-2 text-xs font-bold " +
+                              (added
+                                ? "bg-green-100 text-green-700"
+                                : "bg-zinc-900 text-white")
+                            }
+                          >
+                            {added ? "Dodano ✓" : "+ Zakupy"}
+                          </button>
+                        </div>
+                      );
+                    })}
+                  </div>
                 </div>
               )}
             </div>

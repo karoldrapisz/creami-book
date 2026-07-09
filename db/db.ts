@@ -10,16 +10,25 @@ export interface PantryItemRecord {
   createdAt: string;
 }
 
+export interface ShoppingItemRecord {
+  id: string;
+  name: string;
+  amount: string;
+  checked: boolean;
+}
+
 class CreamiBookDatabase extends Dexie {
   favorites!: Table<FavoriteRecipeRecord, string>;
   pantry!: Table<PantryItemRecord, string>;
+  shopping!: Table<ShoppingItemRecord, string>;
 
   constructor() {
     super("CreamiBookDatabase");
 
-    this.version(2).stores({
+    this.version(3).stores({
       favorites: "recipeId, createdAt",
       pantry: "name, createdAt",
+      shopping: "id, checked",
     });
   }
 }
