@@ -2,14 +2,14 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { BookOpen, Folder, Heart, Home, Settings } from "lucide-react";
+import { BookOpen, Folder, Heart, Home, Refrigerator } from "lucide-react";
 
 const items = [
   { href: "/", label: "Start", icon: Home },
   { href: "/recipes", label: "Przepisy", icon: BookOpen },
+  { href: "/pantry", label: "Mam", icon: Refrigerator },
   { href: "/categories", label: "Kategorie", icon: Folder },
   { href: "/favorites", label: "Ulubione", icon: Heart },
-  { href: "/settings", label: "Ustaw.", icon: Settings }
 ];
 
 export default function BottomNavigation() {
@@ -21,6 +21,7 @@ export default function BottomNavigation() {
         {items.map((item) => {
           const active =
             item.href === "/" ? pathname === "/" : pathname.startsWith(item.href);
+
           const Icon = item.icon;
 
           return (
